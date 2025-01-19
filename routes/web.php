@@ -27,9 +27,10 @@ Route::middleware('auth')->group(function () {
 
     // Task management Controller
     Route::get('/dashboard', [TaskManagementController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-    Route::post('/add-task', [TaskManagementController::class, 'store'])->name('store.task');
+    Route::post('/add-task', [TaskManagementController::class, 'store'])->name('task.store');
+    Route::get('/edit-task/{id}', [TaskManagementController::class, 'edit'])->name('task.edit');
     Route::post('/update-task', [TaskManagementController::class, 'update'])->name('update.task');
-    Route::get('/delete-task/{id}', [TaskManagementController::class, 'destroy'])->name('delete.task');
+    Route::delete('/delete-task/{id}', [TaskManagementController::class, 'destroy'])->name('task.delete');
     
 });
 

@@ -31,18 +31,21 @@ class TaskManagementController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'priority' => 'nullable|in:Low,Medium,High',
-            'status' => 'nullable|boolean',
-        ]);
+        try {
+            $validated = $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'priority' => 'nullable|in:Low,Medium,High',
+                'status' => 'nullable|boolean',
+            ]);
 
-        try{
-            $task = Task::create($validated);
-            return response()->json(['message' => 'Task Created Successfully', 'status' => 201]);
-        }catch(\Exception $e){
-            return response()->json(['message' => 'Task Create fail', 'status' => 202]);
+            Task::create($request->all());
+            
+            return redirect()->route('dashboard')->with('success', 'Task created successfully!');
+
+        } catch (\Exception $e) {
+            // If an exception occurs, return an error message
+            return redirect()->route('dashboard')->with('error', 'There was an error creating the task: ' . $e->getMessage());
         }
 
     }
@@ -58,9 +61,9 @@ class TaskManagementController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request)
     {
-        //
+        dd($request->id);
     }
 
     /**
@@ -88,9 +91,9 @@ class TaskManagementController extends Controller
        
         try{
             $data->delete();
-            return response()->json(['message' => 'Task Deleted Successfully', 'status' => 201]);
+            return redirect()->route('dashboard')->with('success', 'Task Deleted Successfully');
         }catch(\Exception $e){
-            return response()->json(['message' => 'Task Delete fail', 'status' => 202]);
+            return redirect()->route('dashboard')->with('error', 'Task Delete fail!: ' . $e->getMessage());
         }
     }
 }

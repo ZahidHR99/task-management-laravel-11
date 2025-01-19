@@ -13,9 +13,18 @@
     <button type="button" class="btn btn-primary mb-2" data-mdb-ripple-init data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#addTask">Add Task</button>
 
     <!-- Alert Box -->
-    <div id="deleteAlertBox" class="alert alert-success" style="display: none;">
-        <span class="alert-message"></span>
-    </div>
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
 
     <div class="table-responsive">
         <table class="table table-striped table_id">
@@ -39,7 +48,15 @@
                         <td>{{ $task->priority }}</td>
                         <td>{{ $task->status ? 'Completed' : 'Pending' }}</td>
                         <td>{{ $task->created_at->format('M-d-Y H:i:s') }}</td>
-                        <td><button type="button" class="btn btn-danger mb-2" onclick="deleteTask({{ $task->id }})">Delete</button></td>
+                        <td>
+                        <a href="{{ route('task.edit', $task->id) }}"><button type="button" class="btn btn-sm btn-success mb-2">Edit</button></a>
+
+                        <form action="{{ route('task.delete', $task->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"  class="btn btn-sm btn-danger mb-2" onclick="confirmDelete({{ $task->id }})">Delete</button>
+                        </form>
+                        </td>
                     </tr>
                 @endforeach
 
@@ -86,5 +103,15 @@
 <!-- content end -->
 
 @include('components.add_modal')
+
+<script>
+    function confirmDelete(taskId) {
+        // Show a confirmation alert
+        if (confirm('Are you sure you want to delete this task?')) {
+            // If confirmed, submit the form
+            document.getElementById('deleteForm-' + taskId).submit();
+        }
+    }
+</script>
 
 @endsection

@@ -2,7 +2,7 @@
 <!-- Modal -->
 <div class="modal fade" id="addTask" tabindex="-1" aria-labelledby="addTaskLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
-    <form action="" method="post">
+    <form action="{{ route('task.store') }}" method="post">
     @csrf
         <div class="modal-content">
         <div class="modal-header">
@@ -10,11 +10,6 @@
             <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-             <!-- Alert Box -->
-            <div id="alertBox" class="alert alert-success" style="display: none;">
-                <span class="alert-message"></span>
-            </div>
-
             <div class="mb-2" data-mdb-input-init>
                 <label class="form-label" for="title">Title</label>
                 <input type="text" id="title" name="title" class="form-control" required/>

@@ -39,7 +39,7 @@
         <a
           data-mdb-ripple-init
           class="btn btn-dark px-3"
-          href="#"
+          href="https://github.com/ZahidHR99/task-management-laravel-11" target="_blank"
           role="button"
           ><i class="fab fa-github"></i
         ></a>
