@@ -15,7 +15,7 @@ class TaskManagementController extends Controller
         $tasks = Task::orderBy('id', 'desc') // Order by id in descending order
                  ->paginate(10); // Paginate results with 10 per page
 
-        return view('pages.home', compact('tasks'));
+        return view('pages.tasks.index', compact('tasks'));
     }
 
     /**
@@ -23,7 +23,7 @@ class TaskManagementController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.tasks.add');
     }
 
     /**
@@ -45,7 +45,7 @@ class TaskManagementController extends Controller
 
         } catch (\Exception $e) {
             // If an exception occurs, return an error message
-            return redirect()->route('dashboard')->with('error', 'There was an error creating the task: ' . $e->getMessage());
+            return back()->with('error', 'Task create failed!  ' . $e->getMessage());
         }
 
     }
@@ -63,7 +63,8 @@ class TaskManagementController extends Controller
      */
     public function edit(Request $request)
     {
-        dd($request->id);
+        $task = Task::find($request->id);
+        return view('pages.tasks.add', compact('task'));
     }
 
     /**
@@ -71,15 +72,23 @@ class TaskManagementController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $validated = $request->validate([
-            'title' => 'sometimes|required|string|max:255',
-            'description' => 'nullable|string',
-            'priority' => 'sometimes|required|in:Low,Medium,High',
-            'status' => 'sometimes|required|boolean',
-        ]);
+        try {
+            $validated = $request->validate([
+                'title' => 'sometimes|required|string|max:255',
+                'description' => 'nullable|string',
+                'priority' => 'sometimes|required|in:Low,Medium,High',
+                'status' => 'sometimes|required|boolean',
+            ]);
 
-        $taskManagement->update($validated);
-        return response()->json($taskManagement);
+            $task = Task::find($request->id);
+            $task->update($validated);
+
+            return redirect()->route('dashboard')->with('success', 'Task updated successfully!');
+
+        } catch (\Exception $e) {
+            // If an exception occurs, return an error message
+            return back()->with('error', 'Task update failed!  ' . $e->getMessage());
+        }
     }
 
     /**
