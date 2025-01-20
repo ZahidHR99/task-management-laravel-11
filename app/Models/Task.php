@@ -19,6 +19,7 @@ class Task extends Model
         'description',
         'priority',
         'status',
+        'user_id'
     ];
 
     /**
@@ -29,4 +30,10 @@ class Task extends Model
     protected $casts = [
         'status' => 'boolean',
     ];
+
+    // relation with user
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

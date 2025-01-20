@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskManagementController;
 
+// cache clean artisan
 Route::get('/clear', function () {
     $exitCode = Artisan::call('cache:clear');
     $exitCode = Artisan::call('route:clear');
@@ -16,25 +17,23 @@ Route::get('/clear', function () {
     // return what you want
 });
 
-// Route::get('/', function () {
-//     return view('auth.register');
-// });
-
+// home page
 Route::get('/', [TaskManagementController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Profile Controller
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit'); // edit your profile
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update'); // update your profile
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy'); // delete your account
 
     // Task management Controller
-    Route::get('/dashboard', [TaskManagementController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-    Route::post('/store-task', [TaskManagementController::class, 'store'])->name('task.store');
-    Route::get('/create-task', [TaskManagementController::class, 'create'])->name('task.create');
-    Route::get('/edit-task/{id}', [TaskManagementController::class, 'edit'])->name('task.edit');
-    Route::post('/update-task/{id}', [TaskManagementController::class, 'update'])->name('update.task');
-    Route::delete('/delete-task/{id}', [TaskManagementController::class, 'destroy'])->name('task.delete');
-    
+    Route::get('/dashboard', [TaskManagementController::class, 'index'])->name('dashboard'); // Retrieve all tasks
+    Route::get('/create-task', [TaskManagementController::class, 'create'])->name('task.create'); // Create a task
+    Route::post('/store-task', [TaskManagementController::class, 'store'])->name('task.store'); // Store a new task
+    Route::get('/edit-task/{id}', [TaskManagementController::class, 'edit'])->name('task.edit'); // Edit a task
+    Route::post('/update-task/{id}', [TaskManagementController::class, 'update'])->name('update.task');  // Update a task
+    Route::delete('/delete-task/{id}', [TaskManagementController::class, 'destroy'])->name('task.delete'); // Delete a task
+    Route::get('/tasks', [TaskManagementController::class, 'filterTask'])->name('tasks.index'); // Filter priority or status wise task
 });
 
 require __DIR__.'/auth.php';

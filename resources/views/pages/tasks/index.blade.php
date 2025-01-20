@@ -9,8 +9,50 @@
 <!-- content start -->
 <div class="container mt-3 mb-3">
 
-    <!-- task create button -->
-    <a href="{{ url('/create-task') }}"><button type="button" class="btn btn-primary mb-2">Add Task</button></a>
+    <div class="d-flex flex-row">
+        <div class="me-2">
+            <!-- task create button -->
+            <a href="{{ url('/create-task') }}"><button type="button" class="btn btn-primary mb-2">Add New Task</button></a>
+        </div>
+        <div class="me-2">
+            <div class="dropdown">
+                <button
+                    class="btn btn-primary dropdown-toggle"
+                    type="button"
+                    id="priorityDropdown"
+                    data-mdb-dropdown-init
+                    data-mdb-ripple-init
+                    aria-expanded="false"
+                >
+                    Filter tasks by priority
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="priorityDropdown">
+                    <li><a class="dropdown-item" href="{{ route('tasks.index', ['priority' => 'Low', 'status' => request('status')]) }}">Low</a></li>
+                    <li><a class="dropdown-item" href="{{ route('tasks.index', ['priority' => 'Medium', 'status' => request('status')]) }}">Medium</a></li>
+                    <li><a class="dropdown-item" href="{{ route('tasks.index', ['priority' => 'High', 'status' => request('status')]) }}">High</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="me-2">
+            <div class="dropdown">
+                <button
+                    class="btn btn-primary dropdown-toggle"
+                    type="button"
+                    id="statusDropdown"
+                    data-mdb-dropdown-init
+                    data-mdb-ripple-init
+                    aria-expanded="false"
+                >
+                    Filter tasks by status
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="statusDropdown">
+                    <li><a class="dropdown-item" href="{{ route('tasks.index', ['priority' => request('priority'), 'status' => 0]) }}">Pending</a></li>
+                    <li><a class="dropdown-item" href="{{ route('tasks.index', ['priority' => request('priority'), 'status' => 1]) }}">Completed</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
     <!-- alert component -->
     @include('components.alert')
