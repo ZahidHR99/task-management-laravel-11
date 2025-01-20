@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Auth;
 
 class TaskManagementAPIController extends Controller
 {
-
     // Login
     public function login(Request $request)
     {
@@ -41,19 +40,31 @@ class TaskManagementAPIController extends Controller
          }
     }
 
+    // logout
+    public function logout(Request $request)
+    {
+        $request->user()->tokens()->delete();
+        return response()->json(['message' => 'Logged out successfully'], 200);
+    }
+
     // Fetch all tasks belonging to the authenticated user
     public function index()
     {
         $user = auth()->user();
-  
+ 
         if (!$user) {
             return response()->json([
                 'message' => 'Unauthorized'
             ], 401); // 401 Unauthorized
         }
 
+        // Retrieve tasks belonging to the authenticated user
         $tasks = Task::where('user_id', $user->id)->get();
-        return response()->json($tasks, 200);
+
+        return response()->json([
+            'message' => 'Tasks retrieved successfully',
+            'tasks' => $tasks
+        ], 200); // 200 OK
     }
 
     // Create a new task
@@ -77,7 +88,7 @@ class TaskManagementAPIController extends Controller
         $validated['user_id'] = $user->id;
 
         $task = Task::create($validated);
-        return response()->json(['message' => 'Task created successfully!', 'task' => $task], 201);
+        return response()->json(['message' => 'Task created successfully!', 'task' => $task], 200);
     }
 
     // Update a task
@@ -98,7 +109,7 @@ class TaskManagementAPIController extends Controller
         }
 
         $validated = $request->validate([
-            'title' => 'sometimes|required|string|max:255',
+            'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'priority' => 'nullable|in:Low,Medium,High',
             'status' => 'nullable|boolean',
