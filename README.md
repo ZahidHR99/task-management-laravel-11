@@ -1,66 +1,160 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Here’s a brief README for your Task Management System project based on the provided requirements:
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+---
 
-## About Laravel
+# Task Management System
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+A simple Task Management System where users can manage tasks efficiently, assign priorities, and track their completion status.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Features
+### Core Functionality:
+1. **User Authentication**  
+   - Register, login, and logout functionality.  
+   - Route protection to ensure only authenticated users access the system.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+2. **Task CRUD Operations**  
+   - Create, read, update, and delete tasks.  
+   - Each task has:
+     - **Title:** Required string.
+     - **Description:** Optional text.
+     - **Priority:** Enum (Low, Medium, High; default: Medium).
+     - **Status:** Boolean (Completed or Pending; default: Pending).
 
-## Learning Laravel
+3. **Task Filtering and Pagination**  
+   - Display tasks with pagination (10 tasks per page).  
+   - Filter tasks by priority and status.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+4. **RESTful API Endpoints**  
+   - Secure API routes for managing tasks:
+     - `POST /api/tasks` – Create a new task.
+     - `GET /api/tasks` – Retrieve a list of tasks.
+     - `PUT /api/tasks/{id}` – Update an existing task.
+     - `DELETE /api/tasks/{id}` – Delete a task.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Bonus Features:
+- **Eloquent Relationships & Policies**: Secure task access and improve data management.
+- **Unit and Feature Tests**: Use PHPUnit for testing functionality.
+- **Deployment**: Deploy the project to a platform like Heroku, Vercel, or Render.
+- **Git Version Control**: Track development progress using Git.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## Getting Started
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Prerequisites
+- PHP 8.1 or higher
+- Composer
+- MySQL
+- Laravel 10
+- Node.js (if using Laravel Mix or Vite for frontend assets)
 
-### Premium Partners
+### Setup
+1. **Clone the Repository**
+   ```bash
+   git clone <repository_url>
+   cd task-management-system
+   ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+2. **Install Dependencies**
+   ```bash
+   composer install
+   npm install
+   ```
 
-## Contributing
+3. **Environment Configuration**
+   - Duplicate `.env.example` and rename it to `.env`.
+   - Update database credentials in `.env`:
+     ```env
+     DB_CONNECTION=mysql
+     DB_HOST=127.0.0.1
+     DB_PORT=3306
+     DB_DATABASE=your_database_name
+     DB_USERNAME=your_database_user
+     DB_PASSWORD=your_database_password
+     ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4. **Generate Application Key**
+   ```bash
+   php artisan key:generate
+   ```
 
-## Code of Conduct
+5. **Run Migrations**
+   ```bash
+   php artisan migrate
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+6. **Seed Initial Data (Optional)**
+   ```bash
+   php artisan db:seed
+   ```
 
-## Security Vulnerabilities
+7. **Start the Development Server**
+   ```bash
+   php artisan serve
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+8. **Compile Assets (if applicable)**
+   ```bash
+   npm run dev
+   ```
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## API Usage
+### Authentication
+- Use Laravel Breeze for user authentication.
+- Protect API routes to ensure only authenticated users can access them.
+
+### Example Requests
+- **Create Task**  
+  `POST /api/tasks`  
+  Payload:
+  ```json
+  {
+    "title": "Sample Task",
+    "description": "This is a task description.",
+    "priority": "High"
+  }
+  ```
+- **Retrieve Tasks**  
+  `GET /api/tasks`
+
+- **Update Task**  
+  `PUT /api/tasks/{id}`  
+  Payload:
+  ```json
+  {
+    "title": "Updated Task Title",
+    "status": true
+  }
+  ```
+
+- **Delete Task**  
+  `DELETE /api/tasks/{id}`
+
+---
+
+## Assumptions
+1. Tasks are user-specific and cannot be accessed by other users.
+2. API routes are protected and require authentication tokens for access.
+3. Validation rules are applied at the controller level for all inputs.
+
+---
+
+## Deployment
+- Ensure `.env` is updated with production database credentials.
+- Use `php artisan config:cache` to cache configurations.
+- Use `php artisan migrate --force` to run migrations in production.
+
+---
+
+## Testing
+Run the following command to execute tests:
+```bash
+php artisan test
+```
+
+---
+
+## Credits
+Built with using Laravel.
