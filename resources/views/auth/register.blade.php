@@ -13,7 +13,7 @@
         <div class="col-xl-4">
             <div class="card shadow mt-5 text-light" style="background-color: rgb(29 21 52);">
                 <div class="card-body">
-                    <h2 class="text-center p-3">Login Now</h2>
+                    <h2 class="text-center p-3">Registration Now</h2>
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
