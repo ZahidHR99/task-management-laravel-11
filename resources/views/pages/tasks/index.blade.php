@@ -3,7 +3,7 @@
 @section('content')
 
 @section('title')
-  Home
+Task Management
 @stop
 
 <!-- content start -->
